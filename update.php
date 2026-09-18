@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang='en'>
 
 <head>
@@ -81,4 +82,113 @@ if (isset($_GET['id'])) {
 </body>
 
 
+=======
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add user</title>
+</head>
+<body>
+      <?php
+        include('connect.php');
+         $id=($_GET['id']??0);
+    if($id>0){
+        $sql1="select * from user where id=$id";
+        $res1=mysqli_query($con,$sql1);
+        if(mysqli_num_rows($res1)>0){
+        $user=mysqli_fetch_assoc($res1);
+        ?>
+    <form action="" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <th>Name</th>
+                <td>
+                    <input type="text" name="fname" value="<?= $user['fname'];?>"></td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td><input type="number" name="age" value="<?= $user['age'];?>"></td>
+            </tr>
+            <tr>
+                <th>Course</th>
+                <td>
+                   <select name="course" id="">
+                    <option value="">Select Course</option>
+                    <option value="msc" <?= (($user['course'])=='msc')?"selected":"" ?> >MSC</option>
+                    <option value="bsc" <?= (($user['course'])=='bsc')?"selected":"" ?> >BSC</option>
+                    <option value="csc" <?= (($user['course'])=='csc')?"selected":"" ?> >CSC</option>
+                   </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>
+                   Male <input type="radio" name="gender" value="male" <?= (($user['gender'])=='male')?"checked":"" ?> >
+                   Female <input type="radio" name="gender" value="female" <?= (($user['gender'])=='female')?"checked":"" ?> >
+                </td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>
+                 Bengaluru   <input type="checkbox" name="city" value="bengaluru" <?= (($user['city'])=='bengaluru')?"checked":"" ?> >
+                   Himachal <input type="checkbox" name="city" value="himachal" <?= (($user['city'])=='himachal')?"checked":"" ?> >
+                </td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                    <input type="file" name="image" id="">
+                </td>
+            </tr>
+            <tr>
+                <th><input type="submit" value="submit" name="submit"></th>
+               
+            </tr>
+        </table>
+    </form>
+    <?php
+    }
+    else{
+        echo "Invalid User id";
+    }
+     } else{
+        echo "Enter Correct ID";
+    }
+        if(isset($_POST['submit'])){
+            $name=$_POST['fname'];
+            $age=$_POST['age'];
+            $gender=$_POST['gender'];
+            $course=$_POST['course'];
+            $city=$_POST['city'];
+
+            if(!empty($_FILES['image']['name'])){
+                $oldSql="select filename from user where id='$id'";
+                $oldres=mysqli_query($con,$oldSql);
+                $getOldimage=mysqli_fetch_assoc($oldres);
+                $oldImage=$getOldimage['filename'];
+                $imagePath=__DIR__."/images/".$oldImage;
+                     //image save
+            $imagename=$_FILES['image']['name'];
+            $tmpname=$_FILES['image']['tmp_name'];
+            move_uploaded_file($tmpname,"images/".$imagename);
+            $sql="update user set fname='$name',age='$age',city='$city',course='$course',gender='$gender',city='$city',filename='$imagename' where id='$id'";
+            
+                if(!empty($getOldimage) && is_file($imagePath)){
+                    unlink($imagePath);
+                }
+            
+            }
+           else{
+        $sql="update user set fname='$name',age='$age',city='$city',course='$course',gender='$gender',city='$city' where id='$id'";
+           }
+
+            
+            $res=mysqli_query($con,$sql);
+            if($res) header('location:showdata.php');
+            else echo "your data is not saved";
+        }
+    ?>
+</body>
+>>>>>>> 1e64f8d (added new challenges)
 </html>

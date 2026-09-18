@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 
 <head>
     <meta charset="UTF-8">
@@ -81,4 +82,81 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
+=======
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add user</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <th>Name</th>
+                <td>
+                    <input type="text" name="fname" id=""></td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td><input type="number" name="age" id=""></td>
+            </tr>
+            <tr>
+                <th>Course</th>
+                <td>
+                   <select name="course" id="">
+                    <option value="">Select Course</option>
+                    <option value="msc">MSC</option>
+                    <option value="bsc">BSC</option>
+                    <option value="csc">CSC</option>
+                   </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>
+                   Male <input type="radio" name="gender" value="male">
+                   Female <input type="radio" name="gender" value="female">
+                </td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>
+                 Bengaluru   <input type="checkbox" name="city" value="bengaluru">
+                   Himachal <input type="checkbox" name="city" value="himachal">
+                </td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                    <input type="file" name="image" id="">
+                </td>
+            </tr>
+            <tr>
+                <th><input type="submit" value="submit" name="submit"></th>
+               
+            </tr>
+        </table>
+    </form>
+    <?php
+        include('connect.php');
+        if(isset($_POST['submit'])){
+            $name=$_POST['fname'];
+            $age=$_POST['age'];
+            $gender=$_POST['gender'];
+            $course=$_POST['course'];
+            $city=$_POST['city'];
+
+            //image save
+            $imagename=$_FILES['image']['name'];
+            $tmpname=$_FILES['image']['tmp_name'];
+            move_uploaded_file($tmpname,"images/".$imagename);
+
+            $sql="insert into user values('null','$name','$age','$course','$gender','$city','$imagename')";
+            $res=mysqli_query($con,$sql);
+            if($res) header('location:showdata.php');
+            else echo "your data is not saved";
+        }
+    ?>
+</body>
+>>>>>>> 1e64f8d (added new challenges)
 </html>
